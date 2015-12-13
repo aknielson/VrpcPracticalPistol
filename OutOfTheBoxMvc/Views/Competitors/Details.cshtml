@@ -1,0 +1,58 @@
+﻿@model DomainClasses.Competitor
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Competitor</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FireArm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FireArm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Caliber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Caliber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UspsaDivision)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UspsaDivision)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UspsaDivisionClassification)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UspsaDivisionClassification)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UspsaPowerFactor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UspsaPowerFactor)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

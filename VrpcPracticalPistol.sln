@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication", "ConsoleApplication\ConsoleApplication.csproj", "{5E82B411-EF13-4ED1-9CEF-223EAB98AAA7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutOfTheBoxMvc", "OutOfTheBoxMvc\OutOfTheBoxMvc.csproj", "{5A6E4EC0-2B9B-4CCF-9837-4AA3C8E1E4BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutOfTheBoxMvc.Tests", "OutOfTheBoxMvc.Tests\OutOfTheBoxMvc.Tests.csproj", "{694D5C18-639E-4F1C-86D2-0E290379FFF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,14 @@ Global
 		{5E82B411-EF13-4ED1-9CEF-223EAB98AAA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E82B411-EF13-4ED1-9CEF-223EAB98AAA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E82B411-EF13-4ED1-9CEF-223EAB98AAA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A6E4EC0-2B9B-4CCF-9837-4AA3C8E1E4BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A6E4EC0-2B9B-4CCF-9837-4AA3C8E1E4BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A6E4EC0-2B9B-4CCF-9837-4AA3C8E1E4BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A6E4EC0-2B9B-4CCF-9837-4AA3C8E1E4BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{694D5C18-639E-4F1C-86D2-0E290379FFF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{694D5C18-639E-4F1C-86D2-0E290379FFF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{694D5C18-639E-4F1C-86D2-0E290379FFF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{694D5C18-639E-4F1C-86D2-0E290379FFF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

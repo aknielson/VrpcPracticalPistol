@@ -1,0 +1,38 @@
+﻿@model IEnumerable<DomainClasses.Match>
+
+<p>
+    @Html.ActionLink("Create New Match", "Create", "Match",null, new {@class="btn btn-primary"})
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @item.Date.ToShortDateString()
+            </td>
+            <td>
+                <div class="btn-group">
+                    @Html.ActionLink("Edit", "Edit", "Match", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Details", "Details", "Match", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Delete", "Delete", "Match", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Competitors", "Index", "Competitors", new { matchId = item.Id }, new { @class = "btn btn-primary" })
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+

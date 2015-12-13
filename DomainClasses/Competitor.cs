@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DomainClasses
@@ -25,6 +26,7 @@ namespace DomainClasses
 
         public int? Match_Id { get; set; }
 
+        [Display(Name = "Member")]
         public int? Member_Id { get; set; }
 
         public virtual Match Match { get; set; }
