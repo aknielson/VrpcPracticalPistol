@@ -22,6 +22,11 @@ namespace OutOfTheBoxMvc.Controllers
         // GET: Competitors
         public async Task<ActionResult> Index(int matchId = 0)
         {
+            if (matchId == 0)
+            {
+                var model = db.Matches.ToList();
+                return View("ChooseMatch", model);
+            }
             CompetitorsViewModel competitorsVm = new CompetitorsViewModel();
 
             competitorsVm.Match = await db.Matches.FindAsync(matchId);

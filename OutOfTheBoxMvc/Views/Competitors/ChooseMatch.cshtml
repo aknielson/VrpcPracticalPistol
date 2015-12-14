@@ -1,0 +1,15 @@
+﻿@model IEnumerable<DomainClasses.Match>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+Please Select a Match
+@Html.BeginForm(){
+   
+@Html.DropDownList("matchId", new SelectList(Model, "Id", "Date"), new { @class = "form-control" })
+
+
+}

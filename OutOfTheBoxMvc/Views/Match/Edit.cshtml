@@ -7,6 +7,7 @@
 </div>
 @using (Html.BeginForm())
 {
+    @Html.HiddenFor(x => x.Match.Id);
     <div class="form-group">
 
         <label for="@Html.IdFor(x => x.Match.Date)">Match Date</label>
@@ -15,7 +16,7 @@
                type="date"
                class="form-control"
                value="@Model.Match.Date.ToString("yyyy-MM-dd")">
-        <br />
+        <br/>
         <Div class="container">
             <Div class="row">
                 <Div class="col-xs-3">
@@ -51,22 +52,24 @@
                         @Html.HiddenFor(m => m.Stages[i].Id)
                     </Div>
                     <Div class="col-xs-2">
-                        @Html.EditorFor(m => m.Stages[i].IsVirginia, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(m => m.Stages[i].IsVirginia, new {htmlAttributes = new {@class = "form-control"}})
                     </Div>
                     <Div class="col-xs-2">
                         @Html.EditorFor(m => m.Stages[i].NumberOfStrings, new {htmlAttributes = new {@class = "form-control"}})
                     </Div>
                     <div class="col-xs-5">
-                        @Html.DropDownListFor(m => m.Stages[i].Designer_Id, new SelectList(Model.MembersSelectList, "Value", "Text", Model.Stages[i].Designer_Id), new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.Stages[i].Designer_Id, new SelectList(Model.MembersSelectList, "Value", "Text", Model.Stages[i].Designer_Id), new {@class = "form-control"})
                     </div>
 
                 </Div>
             }
 
-            <br />
-            <input type="submit" value="submit" class="btn btn-primary" />
+            <br/>
+            <input type="submit" value="submit" class="btn btn-primary"/>
         </Div>
     </div>
+
+    @Html.ActionLink("Cancel", "Index", "Home")
 }
 
 

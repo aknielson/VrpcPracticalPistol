@@ -26,7 +26,6 @@
             <td>
                 <div class="btn-group">
                     @Html.ActionLink("Edit", "Edit", "Match", new { id = item.Id }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("Details", "Details", "Match", new { id = item.Id }, new { @class = "btn btn-primary" })
                     @Html.ActionLink("Delete", "Delete", "Match", new { id = item.Id }, new { @class = "btn btn-primary" })
                     @Html.ActionLink("Competitors", "Index", "Competitors", new { matchId = item.Id }, new { @class = "btn btn-primary" })
                 </div>

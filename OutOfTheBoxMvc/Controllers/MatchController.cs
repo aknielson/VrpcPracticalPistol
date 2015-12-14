@@ -64,6 +64,37 @@ namespace OutOfTheBoxMvc.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Edit(MatchViewModel matchViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var match =  await db.Matches.FindAsync(matchViewModel.Match.Id);
+                match.Date = matchViewModel.Match.Date;
+                if (matchViewModel.Stages?.Count > 0)
+                {
+                    foreach (var stage in match.Stages)
+                    {
+                        var newStage = matchViewModel.Stages.FirstOrDefault(x => x.Id == stage.Id);
+                        stage.Id = newStage.Id;
+                        stage.Designer_Id = newStage.Designer_Id;
+                        stage.Match_Id = matchViewModel.Match.Id;
+                        stage.StageName = newStage.StageName;
+                        stage.IncludeInCombinedScore = newStage.IncludeInCombinedScore;
+                        stage.IsVirginia = newStage.IsVirginia;
+                        stage.NumberOfStrings = newStage.NumberOfStrings;
+
+                        //AutoMapper.Mapper.Map(stage, newStage);
+                    }
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(matchViewModel);
+
+        }
+
 
         // GET: Matches/Delete/5
         public async Task<ActionResult> Delete(int? id)
