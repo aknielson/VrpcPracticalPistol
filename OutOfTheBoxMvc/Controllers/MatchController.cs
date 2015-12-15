@@ -11,10 +11,9 @@ using OutOfTheBoxMvc.Models;
 
 namespace OutOfTheBoxMvc.Controllers
 {
-    public class MatchController : Controller
+    public class MatchController : VrpcBaseController
     {
-        //todo: IOC
-        private VrpcPracticalPistolContext db = new VrpcPracticalPistolContext();
+      
         // GET: Match
         [HttpGet]
         public ActionResult Create()
@@ -125,24 +124,7 @@ namespace OutOfTheBoxMvc.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("Index","Home");
         }
-
-      
-
-        private List<SelectListItem> BuildMemberList()
-        {
-            var memberList = new List<SelectListItem>();
-            memberList.Add(new SelectListItem { Text = "Member List" });
-
-            foreach (var member in db.Members.OrderBy(x => x.FirstName))
-            {
-                memberList.Add(new SelectListItem
-                {
-                    Value = member.Id.ToString(),
-                    Text = member.FirstName + ' ' + member.LastName
-                });
-            }
-            return memberList;
-        }
+        
 
         private List<Stage> PopulateStages(Match match)
         {

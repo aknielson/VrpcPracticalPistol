@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DomainClasses
@@ -14,15 +15,14 @@ namespace DomainClasses
 
         public int Id { get; set; }
 
-        public string FireArm { get; set; }
 
-        public string Caliber { get; set; }
+       
+        public int? Caliber_Id { get; set; }
 
-        public string UspsaDivision { get; set; }
+        public virtual Caliber Caliber { get; set; }
 
-        public string UspsaDivisionClassification { get; set; }
 
-        public string UspsaPowerFactor { get; set; }
+       
 
         public int? Match_Id { get; set; }
 

@@ -16,6 +16,7 @@ namespace DataModel
         public virtual DbSet<MatchStageTime> MatchStageTimes { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Stage> Stages { get; set; }
+        public virtual DbSet<Caliber> Calibers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -58,6 +59,14 @@ namespace DataModel
                 .HasMany(e => e.CompetitorStages)
                 .WithOptional(e => e.Stage)
                 .HasForeignKey(e => e.Stage_Id);
+
+            modelBuilder.Entity<Caliber>()
+                .HasMany(e => e.Competitors)
+                .WithOptional(e => e.Caliber)
+                .HasForeignKey(e => e.Caliber_Id);
+
+
+
         }
     }
 }

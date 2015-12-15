@@ -12,20 +12,16 @@ using OutOfTheBoxMvc.Models;
 
 namespace OutOfTheBoxMvc.Controllers
 {
-    public class CompetitorsController : Controller
+    public class CompetitorsController : VrpcBaseController
     {
-
-        //todo: IOC
-        private VrpcPracticalPistolContext db = new VrpcPracticalPistolContext();
-        // GET: Competitors
 
         // GET: Competitors
         public async Task<ActionResult> Index(int matchId = 0)
         {
             if (matchId == 0)
             {
-                var model = db.Matches.ToList();
-                return View("ChooseMatch", model);
+                var matches = db.Matches.OrderByDescending(x => x.Date).ToList();
+                return View("ChooseMatch", new ChooseMatchVM(matches,"Index","Competitors"));
             }
             CompetitorsViewModel competitorsVm = new CompetitorsViewModel();
 
@@ -148,26 +144,7 @@ namespace OutOfTheBoxMvc.Controllers
             base.Dispose(disposing);
         }
 
-        private List<SelectListItem> BuildMemberList()
-        {
-            var memberList = new List<SelectListItem>();
-            memberList.Add(new SelectListItem
-            {
-                Value = "0",
-                Text = "Member List"
-            });
-
-
-            foreach (var member in db.Members.OrderBy(x => x.FirstName))
-            {
-                memberList.Add(new SelectListItem
-                {
-                    Value = member.Id.ToString(),
-                    Text = member.FirstName + ' ' + member.LastName
-                });
-            }
-            return memberList;
-        }
+      
 
     }
 }

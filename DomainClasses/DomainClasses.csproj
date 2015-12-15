@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caliber.cs" />
     <Compile Include="Competitor.cs" />
     <Compile Include="CompetitorStage.cs" />
+    <Compile Include="LookUpBase.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="MatchStageTime.cs" />
     <Compile Include="Member.cs" />
