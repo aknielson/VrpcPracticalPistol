@@ -61,13 +61,13 @@
     <Folder Include="dbo\Tables\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\Stages.sql" />
-    <Build Include="dbo\Tables\Members.sql" />
-    <Build Include="dbo\Tables\MatchStageTimes.sql" />
-    <Build Include="dbo\Tables\Matches.sql" />
-    <Build Include="dbo\Tables\CompetitorStages.sql" />
-    <Build Include="dbo\Tables\Competitors.sql" />
     <Build Include="dbo\Tables\Calibers.sql" />
+    <Build Include="dbo\Tables\Competitors.sql" />
+    <Build Include="dbo\Tables\CompetitorStages.sql" />
+    <Build Include="dbo\Tables\Matches.sql" />
+    <Build Include="dbo\Tables\MatchStageTimes.sql" />
+    <Build Include="dbo\Tables\Members.sql" />
+    <Build Include="dbo\Tables\Stages.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Database.refactorlog" />

@@ -54,6 +54,7 @@ namespace OutOfTheBoxMvc.Controllers
             model.Match_Id = (await db.Matches.FindAsync(matchId)).Id;
            
             ViewBag.MembersSelectList = BuildMemberList();
+            ViewBag.CaliberSelectList = BuildCaliberList();
 
             return View(model);
         }

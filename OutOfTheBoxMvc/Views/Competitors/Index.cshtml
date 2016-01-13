@@ -69,19 +69,10 @@
             Competitor
         </th>
         <th>
-            Firearm
-        </th>
-        <th>
             Caliber
         </th>
         <th>
-            Division
-        </th>
-        <th>
-             Classification
-        </th>
-        <th>
-            Power Factor
+            Magazine Capacity
         </th>
         <th></th>
     </tr>
@@ -92,19 +83,10 @@
             @Model.MembersList.FirstOrDefault(st => st.Value.Equals(item.Member_Id.ToString())).Text
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FireArm)
+            @Html.DisplayFor(modelItem => item.Caliber.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Caliber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UspsaDivision)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UspsaDivisionClassification)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UspsaPowerFactor)
+            @Html.DisplayFor(modelItem => item.MagazineCapacity)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |

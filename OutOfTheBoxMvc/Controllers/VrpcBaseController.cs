@@ -11,6 +11,25 @@ namespace OutOfTheBoxMvc.Controllers
     {
         protected VrpcPracticalPistolContext db = new VrpcPracticalPistolContext();
 
+        protected List<SelectListItem> BuildCaliberList()
+        {
+            var caliberList = new List<SelectListItem>();
+            caliberList.Add(new SelectListItem
+            {
+                Value = "0",
+                Text = "Caliber List"
+            });
+            foreach(var caliber in db.Calibers)
+            {
+                caliberList.Add(new SelectListItem
+                {
+                    Value = caliber.Id.ToString(),
+                    Text = caliber.Description
+                });
+            };
+            return caliberList;
+        }
+
         protected List<SelectListItem> BuildMemberList()
         {
             var memberList = new List<SelectListItem>();

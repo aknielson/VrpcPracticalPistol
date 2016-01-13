@@ -144,6 +144,7 @@
     <Compile Include="Models\CompetitorsViewModel.cs" />
     <Compile Include="Models\ChooseMatchVM.cs" />
     <Compile Include="Models\MatchViewModel.cs" />
+    <Compile Include="Models\ScoreVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +200,7 @@
     <Content Include="Views\Competitors\Index.cshtml" />
     <Content Include="Views\Shared\ChooseMatch.cshtml" />
     <Content Include="Views\Score\Index.cshtml" />
+    <Content Include="Views\Score\Entry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
