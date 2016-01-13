@@ -1,0 +1,11 @@
+﻿@model OutOfTheBoxMvc.Models.ChooseMatchVM
+@{
+    ViewBag.Title = "Select Match";
+}
+<h2>Select Match</h2>
+Please Select a Match
+@using (Html.BeginForm(Model.TargetAction, Model.TargetController))
+{
+    @Html.DropDownList("matchId", Model.MatchSelectListItems, new {@class = "form-control"})
+    <input type="submit" class="form-control" />
+}
