@@ -11,44 +11,27 @@
     <h4>Competitor</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Match)</dt>
+        <dd>@Html.DisplayFor(model => model.Match.Date)</dd>
         <dt>
-            @Html.DisplayNameFor(model => model.FireArm)
+            @Html.DisplayNameFor(model => model.Member)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.FireArm)
+            @Html.DisplayFor(model => model.Member.FirstName)&nbsp;
+            @Html.DisplayFor(model => model.Member.LastName)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Caliber)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Caliber)
+            @Html.DisplayFor(model => model.Caliber.Description)
         </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.UspsaDivision)
+            @Html.DisplayNameFor(model => model.MagazineCapacity)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.UspsaDivision)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UspsaDivisionClassification)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UspsaDivisionClassification)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UspsaPowerFactor)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UspsaPowerFactor)
+            @Html.DisplayFor(model => model.MagazineCapacity)
         </dd>
 
     </dl>

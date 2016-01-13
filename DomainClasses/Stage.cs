@@ -14,12 +14,17 @@ namespace DomainClasses
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Stage")]
         public string StageName { get; set; }
 
         public bool IncludeInCombinedScore { get; set; }
 
+
+        [Display(Name = "Virginia")]
         public bool IsVirginia { get; set; }
 
+
+        [Display(Name = "Strings")]
         public int NumberOfStrings { get; set; }
 
         public int? Designer_Id { get; set; }

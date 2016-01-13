@@ -1,29 +1,36 @@
-﻿using System;
+﻿using DataModel;
+using DomainClasses;
+using OutOfTheBoxMvc.Models;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using DataModel;
-using OutOfTheBoxMvc.Models;
 
 namespace OutOfTheBoxMvc.Controllers
 {
-    public class ScoreController : VrpcBaseController
+    public class ScoreController : Controller
     {
-        // GET: Competitors
-        public  ActionResult Index(int matchId = 0)
+        private VrpcPracticalPistolContext db = new VrpcPracticalPistolContext();
+        // GET: Score
+        public ActionResult Index()
         {
-            if (matchId == 0)
+            return View();
+        }
+
+        public ActionResult Entry(int matchId)
+        {
+            ScoreVM scoreVM = new ScoreVM();
+            scoreVM.MatchId = matchId;
+
+            scoreVM.Competitor = new List<SelectListItem>();
+            var competitorList = db.Competitors.Where(x => x.Match_Id.Equals(matchId));
+            scoreVM.Competitor = new List<SelectListItem>();
+            foreach (var competitor in competitorList)
             {
-                var model = db.Matches.ToList();
-                return View("ChooseMatch", model);
+                scoreVM.Competitor.Add(new SelectListItem { Value = competitor.Id.ToString(), Text = competitor.Member.FirstName + " " + competitor.Member.LastName });
             }
-
-            return RedirectToAction("Index", "Home");
-
-            // return View();
+            return View();
         }
     }
 }
