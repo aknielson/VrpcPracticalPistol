@@ -72,4 +72,8 @@
   <ItemGroup>
     <RefactorLog Include="Database.refactorlog" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Database.publish.xml" />
+    <None Include="LocalDbPublish.publish.publish.xml" />
+  </ItemGroup>
 </Project>

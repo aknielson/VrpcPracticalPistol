@@ -17,6 +17,10 @@ namespace DomainClasses
         [Display(Name = "Stage")]
         public string StageName { get; set; }
 
+        [Required]
+        [Display(Name = "Stage Order")]
+        public int? StageOrder { get; set; }
+
         public bool IncludeInCombinedScore { get; set; }
 
 

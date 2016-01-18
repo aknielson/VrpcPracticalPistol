@@ -4,6 +4,7 @@
     [Competitor_Id] INT NULL,
     [Stage_Id]      INT NULL,
     [Match_Id]      INT NULL,
+    [IsScoringComplete] BIT NOT NULL DEFAULT 0, 
     CONSTRAINT [PK_dbo.CompetitorStages] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_dbo.CompetitorStages_dbo.Competitors_Competitor_Id] FOREIGN KEY ([Competitor_Id]) REFERENCES [dbo].[Competitors] ([Id]),
     CONSTRAINT [FK_dbo.CompetitorStages_dbo.Matches_Match_Id] FOREIGN KEY ([Match_Id]) REFERENCES [dbo].[Matches] ([Id]),
