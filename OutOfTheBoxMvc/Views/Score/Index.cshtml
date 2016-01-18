@@ -108,4 +108,11 @@
             </div>
         </div>
     </div>
+    <table>
+        @for(int rowc = 0; rowc < 5; rowc++)
+        {
+            <tr><td>@ViewBag.NameGrid[0,rowc]</td><td>@ViewBag.NameGrid[1,rowc]</td><td>@ViewBag.NameGrid[2,rowc]</td></tr>
+
+        }
+    </table>
 
