@@ -109,10 +109,13 @@
         </div>
     </div>
     <table>
-        @for(int rowc = 0; rowc < 5; rowc++)
+        @for(int rowc = 0; rowc <= ViewBag.NameGrid.GetUpperBound(0); rowc++)
         {
-            <tr><td>@ViewBag.NameGrid[0,rowc]</td><td>@ViewBag.NameGrid[1,rowc]</td><td>@ViewBag.NameGrid[2,rowc]</td></tr>
-
+            <tr>
+                <td>@ViewBag.NameGrid[rowc, 0].Competitor.Member.FirstName;</td>
+                <td>@ViewBag.NameGrid[rowc, 1].Competitor.Member.FirstName;</td>
+                <td>@ViewBag.NameGrid[rowc, 2].Competitor.Member.FirstName;</td>
+            </tr>
         }
     </table>
 

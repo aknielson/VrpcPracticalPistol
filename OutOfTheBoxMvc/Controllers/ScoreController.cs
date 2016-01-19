@@ -24,286 +24,155 @@ namespace OutOfTheBoxMvc.Controllers
             var matchCompetitors = db.Competitors.Where(x => x.Match_Id == currentMatchId).ToList();
 
             int maxrows = matchCompetitors.Count();
-            var competitorGrid = new CompetitorStage[3, maxrows];
-            var competitorGrid2 = new CompetitorStage[maxrows,3];
-            var namegrid = new string[3, maxrows];
 
-            var crap = db.CompetitorStages.Where(x => x.Match_Id == currentMatchId).ToList();
+            var competitorList = db.Competitors.Where(x => x.Match_Id == currentMatchId).ToList();
+            var competitorStageList = db.CompetitorStages.Where(x => x.Match_Id == currentMatchId).ToList();
 
-            foreach (var item in crap)
-            {
-                if (item.Stage.StageOrder < 4)
-                PlaceInNextOpenSpot(ref competitorGrid2, item);
-            }
-
-            var how = competitorGrid2;
-
-            int currentRow = 0;
-            ////////////////////////////
-            foreach (var cs in db.CompetitorStages.Where(x => x.Match_Id == currentMatchId).OrderBy(x => x.Stage_Id).ToList())
-            {
-                if (cs.Stage.StageOrder < 4)
-                {
-                    if (namegrid[cs.Stage.StageOrder.Value - 1, currentRow] == null)
-                        namegrid[cs.Stage.StageOrder.Value - 1, currentRow] = cs.Competitor.Member.FirstName;
-                    else
-                    {
-                        currentRow++;
-                        if (currentRow == maxrows)
-                            currentRow = 0;
-                        namegrid[cs.Stage.StageOrder.Value - 1, currentRow] = cs.Competitor.Member.FirstName;
-                    }
-                    
-                }
-                if (currentRow == maxrows)
-                    currentRow = 0;
-            }
-
-            ViewBag.NameGrid = namegrid;
-
-            var ffeed = namegrid;
-
-
-
-
-            /////////////////////////////
-
-            
-
-            while (currentRow < maxrows)
-            {
-                foreach (var competitor in db.Competitors.Where(x => x.Match_Id == currentMatchId))
-                {
-                    if (currentRow >= maxrows)
-                        break;
-                    if (competitorGrid[0, currentRow] == null)
-                    {
-                        var stageOneForCompetitor = competitor.CompetitorStages.FirstOrDefault(x => x.Stage.StageOrder == (1));
-                        if (!stageOneForCompetitor.IsScoringComplete.Value && !SpotFilled(competitorGrid,stageOneForCompetitor))
-                        {
-                            competitorGrid[0, currentRow] = stageOneForCompetitor;
-                            //namegrid[0, currentRow] = stageOneForCompetitor.Competitor.Member.FirstName;
-                            if (competitorGrid[0, currentRow] != null && competitorGrid[1, currentRow] != null && competitorGrid[2, currentRow] != null)
-                                currentRow++;
-                            continue;
-                        }
-                    }
-
-                    if (competitorGrid[1, currentRow] == null)
-                    {
-                        var stageTwoForCompetitor = competitor.CompetitorStages.FirstOrDefault(x => x.Stage.StageOrder == (2));
-                        if (!stageTwoForCompetitor.IsScoringComplete.Value && !SpotFilled(competitorGrid, stageTwoForCompetitor))
-                        {
-                            competitorGrid[1, currentRow] = stageTwoForCompetitor;
-
-                            //namegrid[1, currentRow] = stageTwoForCompetitor.Competitor.Member.FirstName;
-                            if (competitorGrid[0, currentRow] != null && competitorGrid[1, currentRow] != null && competitorGrid[2, currentRow] != null)
-                                currentRow++;
-                            continue;
-                        }
-                    }
-
-                    if (competitorGrid[2, currentRow] == null)
-                    {
-                        var stageThreeForCompetitor = competitor.CompetitorStages.FirstOrDefault(x => x.Stage.StageOrder == (3));
-                        if (!stageThreeForCompetitor.IsScoringComplete.Value && !SpotFilled(competitorGrid, stageThreeForCompetitor))
-                        {
-                            competitorGrid[2, currentRow] = stageThreeForCompetitor;
-                           // namegrid[2, currentRow] = stageThreeForCompetitor.Competitor.Member.FirstName;
-                            if (competitorGrid[0, currentRow] != null && competitorGrid[1, currentRow] != null && competitorGrid[2, currentRow] != null)
-                                currentRow++;
-                            continue;
-                        }
-                    }
-                    currentRow++;
-                }
-            }
+            CompetitorStage[,] competitorStageTable = BuildTable(competitorList, competitorStageList);
+            ViewBag.NameGrid = competitorStageTable;
+            //competitorStageTable[0, 0].Competitor.Member.FirstName;
 
             return View();
         }
-
-        public ActionResult Entry(int matchId)
-        {
-            ScoreVM scoreVM = new ScoreVM();
-            scoreVM.MatchId = matchId;
-
-            scoreVM.Competitor = new List<SelectListItem>();
-            var competitorList = db.Competitors.Where(x => x.Match_Id.Equals(matchId));
-            scoreVM.Competitor = new List<SelectListItem>();
-            foreach (var competitor in competitorList)
-            {
-                scoreVM.Competitor.Add(new SelectListItem { Value = competitor.Id.ToString(), Text = competitor.Member.FirstName + " " + competitor.Member.LastName });
-            }
-            return View();
-        }
-
-        public ActionResult ShowScoreTable()
-        {
-
-            var match = db.Matches.OrderByDescending(x => x.Date).ToList().FirstOrDefault();
-            var currentMatchId = match?.Id;
-
-            int maxrows = db.CompetitorStages.Where(x => x.Match_Id == currentMatchId).Count();
-            var competitorGrid2 = new CompetitorStage[maxrows, 3];
-
-            var nameGrid = new string[maxrows, 3];
-
-            
-            var crap = db.CompetitorStages.Where(x => x.Match_Id == currentMatchId).ToList();
-
-            foreach (var item in crap.OrderBy(x =>x.Stage.StageOrder))
-            {
-                var oo = item.Competitor.Member.FirstName;
-                if (item.Stage.StageOrder < 4)
-                    PlaceInNextOpenSpot(ref competitorGrid2, item);
-            }
-
-            var how = competitorGrid2;
-            var rowLowerLimit = competitorGrid2.GetLowerBound(0);
-            var rowUpperLimit = competitorGrid2.GetUpperBound(0);
-
-            var colLowerLimit = competitorGrid2.GetLowerBound(1);
-            var colUpperLimit = competitorGrid2.GetUpperBound(1);
-
-            for (int row = rowLowerLimit; row < rowUpperLimit; row++)
-            {
-                for (int col = colLowerLimit; col <= colUpperLimit; col++)
-                {
-                    if (competitorGrid2[row,col] != null)
-                        nameGrid[row,col] = competitorGrid2[row, col].Competitor.Member.FirstName;
-                }
-            }
-            ViewBag.NameGrid = nameGrid;
-            return View();
-        }
-
-        public ActionResult PopTableFirst()
-        {
-            var match = db.Matches.OrderByDescending(x => x.Date).ToList().FirstOrDefault();
-            var currentMatchId = match?.Id;
-
-            var competitorArray = db.Competitors.Where(x => x.Match_Id == currentMatchId).ToArray();
-            var stageOneCompetitorList = db.CompetitorStages.Where(x => x.Stage.StageOrder == 1).ToArray();
-            var stageTwoCompetitorList = db.CompetitorStages.Where(x => x.Stage.StageOrder == 2).ToArray();
-            var stageThreeCompetitorList = db.CompetitorStages.Where(x => x.Stage.StageOrder == 3).ToArray();
-
-
-
-            var competitorStagesList = db.CompetitorStages.ToList();
-
-            int maxrows = db.CompetitorStages.Where(x => x.Match_Id == currentMatchId).Count();
-
-            var competitorGrid2 = new CompetitorStage[maxrows, 3];
-
-            var nameGrid = new string[maxrows, 3];
-
-            var rowLowerLimit = nameGrid.GetLowerBound(0);
-            var rowUpperLimit = nameGrid.GetUpperBound(0);
-
-            var colLowerLimit = nameGrid.GetLowerBound(1);
-            var colUpperLimit = nameGrid.GetUpperBound(1);
-
-            for (int row = rowLowerLimit; row < rowUpperLimit; row++)
-            {
-                //first which competitor
-                foreach(var competitor in competitorArray)
-                {
-
-                    //todo: check if row full... if so then next row?
-                    for (int col = colLowerLimit; col < colUpperLimit; col++)
-                    {
-                        nameGrid[row, col] = competitorStagesList.Where(x => x.Competitor_Id == competitor.Id).Where(x => x.Stage.StageOrder == col + 1).FirstOrDefault().Competitor.Member.FirstName;   
-                    }
-                }                
-            }
-
-            return View();
-        }
-
-        private bool SpotFilled(CompetitorStage[,] myarray, CompetitorStage competitorStage)
-        {
-            bool returnVal = false;
-
-            var rowLowerLimit = myarray.GetLowerBound(0);
-            var rowUpperLimit = myarray.GetUpperBound(0);
-
-            var colLowerLimit = myarray.GetLowerBound(1);
-            var colUpperLimit = myarray.GetUpperBound(1);
-
-            for (int row = rowLowerLimit; row < rowUpperLimit; row++)
-            {
-                for (int col = colLowerLimit; col < colUpperLimit; col++)
-                {
-                    if (myarray[row, col] == competitorStage)
-                        return true;
-                }
-            }
-
-            return returnVal;
-        }
-
-        private void PlaceInNextOpenSpot(ref CompetitorStage[,] myarray, CompetitorStage competitorStage)
-        {
-            bool returnVal = false;
-
-            var rowLowerLimit = myarray.GetLowerBound(0);
-            var rowUpperLimit = myarray.GetUpperBound(0);
-
-            var colLowerLimit = myarray.GetLowerBound(1);
-            var colUpperLimit = myarray.GetUpperBound(1);
-
-            int openRow = -1;
-
-            //is competitor already in that row?
-            for (int row = rowLowerLimit; row < rowUpperLimit; row++)
-            {
-                bool competitorAlreadyInRow = false;
-                for (int col = colLowerLimit; col < colUpperLimit; col++)
-                { 
-                    if (myarray[row, col]  != null)                 
-                    if (myarray[row, col].Competitor_Id == competitorStage.Competitor_Id)
-                        competitorAlreadyInRow = true;
-                }
-                if (!competitorAlreadyInRow)
-                {
-                    //now check to see if this competitorStage is open
-                    if (myarray[row, competitorStage.Stage.StageOrder.Value - 1] == null)
-                    {
-                        myarray[row, competitorStage.Stage.StageOrder.Value - 1] = competitorStage;
-                        row = rowUpperLimit;
-                    }
-                }
-
-            }
-
-           
-        }
-
         private void BuildStateScores(int currentMatchId)
         {
             var competitors = db.Competitors.Where(x => x.Match_Id == currentMatchId).ToList();
+            var competitorStages = db.CompetitorStages.Where(x => x.Match_Id == currentMatchId).ToList();
 
-            if (db.CompetitorStages.Count() == 0 || !db.CompetitorStages.Any(x => x.Match_Id == currentMatchId))
+            if (competitorStages.Count() == 0 || !competitorStages.Any(x => x.Match_Id == currentMatchId))
             {
                 foreach (var competitor in competitors)
                 {
-                    foreach (var stage in db.Stages.Where(x => x.Match_Id == currentMatchId).ToList())
-                    {
-                        var competitorStage = new CompetitorStage();
-                        competitorStage.Match_Id = currentMatchId;
-                        competitorStage.Competitor_Id = competitor.Id;
-                        competitorStage.Stage_Id = stage.Id;
-                        competitorStage.IsScoringComplete = false;
-                        //competitorStage.MatchStageTimes = new List<MatchStageTime>(stage.NumberOfStrings);
-                        for (int i = 0; i < stage.NumberOfStrings; i++)
-                        {
-                            db.MatchStageTimes.Add(new MatchStageTime { CompetitorStage = competitorStage });
-                        }
-                        db.CompetitorStages.Add(competitorStage);
-                    }
+                    AddCompetitorStage(currentMatchId, competitor);
                 }
                 db.SaveChanges();
+            } else
+            {
+                if (db.CompetitorStages.Count() < competitors.Count() * 4)
+                {
+                    foreach(var competitor in competitors)
+                    {
+                        if (!competitorStages.Any(x => x.Competitor_Id == competitor.Id))
+                        {
+                            AddCompetitorStage(currentMatchId, competitor);
+
+                            db.SaveChanges();
+                        }
+                    }
+                }
+
+            }
+
+        }
+
+        public void AddCompetitorStage(int currentMatchId, Competitor competitor)
+        {
+            foreach (var stage in db.Stages.Where(x => x.Match_Id == currentMatchId).ToList())
+            {
+                var competitorStage = new CompetitorStage();
+                competitorStage.Match_Id = currentMatchId;
+                competitorStage.Competitor_Id = competitor.Id;
+                competitorStage.Stage_Id = stage.Id;
+                competitorStage.IsScoringComplete = false;
+                //competitorStage.MatchStageTimes = new List<MatchStageTime>(stage.NumberOfStrings);
+                for (int i = 0; i < stage.NumberOfStrings; i++)
+                {
+                    db.MatchStageTimes.Add(new MatchStageTime { CompetitorStage = competitorStage });
+                }
+                db.CompetitorStages.Add(competitorStage);
             }
         }
+
+
+        private CompetitorStage[,] BuildTable(List<Competitor> competitorList, List<CompetitorStage> competitorStageList)
+        {
+            var rows = competitorList.Count();
+            var cols = 3;
+
+            var populate = new List<Competitor>();
+            populate.AddRange(competitorList);
+            populate.AddRange(competitorList);
+            populate.AddRange(competitorList);
+
+            var populateArray = populate.ToArray();
+
+            var myArray = new CompetitorStage[rows, cols];
+
+            var row = 0;
+
+            foreach (var comp in populateArray)
+            {
+                //is row full... if so, mow next now
+                if ((myArray[row, 0] != null) && (myArray[row, 1] != null) && (myArray[row, 2] != null))
+                    row++; // Maybe build a row verification method
+                //if there is an open position on current row, find a spot for this competitor
+                for (var currentCol = 0; currentCol < 3; currentCol++)
+                {
+                    if (myArray[row, currentCol] == null)
+                    {
+                        var compStagePopulatedinPrevRow = false;
+                        //Does currentCol have this person in a previous row
+                        for (var prevRow = 0; prevRow < row; prevRow++)
+                        {
+                            if (myArray[prevRow, currentCol] != null && myArray[prevRow, currentCol].Competitor_Id.Equals(comp.Id))
+                                compStagePopulatedinPrevRow = true;
+                        }
+                        if (!compStagePopulatedinPrevRow)
+                        {
+                            myArray[row, currentCol]  =
+                                competitorStageList.FirstOrDefault(
+                                    x => x.Competitor_Id == comp.Id && x.Stage.StageOrder == currentCol + 1);
+                            break; //next competitor please
+                        }
+                        //are other two spots filled?
+
+                        var rowSpots = new[] { 0, 1, 2 };
+                        var rowColsNotThisOne = rowSpots.Where(x => x != currentCol).ToArray();
+                        var hasEmptySpots = false;
+                        foreach (var colf in rowColsNotThisOne)
+                        {
+                            if (myArray[row, colf] == null)
+                            {
+                                hasEmptySpots = true;
+                                break;
+                            }
+                        }
+                        if (!hasEmptySpots)
+                        {                            
+                            myArray[row, 2] = myArray[row, 0];
+                            myArray[row, 0] = competitorStageList.FirstOrDefault(
+                                x => x.Competitor_Id == comp.Id && x.Stage.StageOrder == currentCol + 1);
+                        }
+                    }
+                }
+            }
+
+
+            return myArray;
+        }
+
+        public CompetitorStage[] FindMatchingCompetitorStageRecords(CompetitorStage[,] competitorStageArray, Competitor competitor)
+        {
+            var result = new List<CompetitorStage>();
+            var rowLowerLimit = competitorStageArray.GetLowerBound(0);
+            var rowUpperLimit = competitorStageArray.GetUpperBound(0);
+
+            var colLowerLimit = competitorStageArray.GetLowerBound(1);
+            var colUpperLimit = competitorStageArray.GetUpperBound(1);
+
+            for (int row = rowLowerLimit; row < rowUpperLimit; row++)
+            {
+                for (int col = colLowerLimit; col < colUpperLimit; col++)
+                {
+                    if (competitorStageArray[row, col].Competitor.Id == competitor.Id)
+                        result.Add(competitorStageArray[row, col]);
+
+                    // you could do the search here...
+                }
+            }
+
+            return result.ToArray();
+        }
+
     }
 }
