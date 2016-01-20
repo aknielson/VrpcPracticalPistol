@@ -55,17 +55,29 @@ namespace OutOfTheBoxMvc.Controllers
                         if (!competitorStages.Any(x => x.Competitor_Id == competitor.Id))
                         {
                             AddCompetitorStage(currentMatchId, competitor);
-
                             db.SaveChanges();
                         }
                     }
                 }
-
             }
-
         }
 
-        public void AddCompetitorStage(int currentMatchId, Competitor competitor)
+        private CompetitorStage[,] MoveCompetitorStage(CompetitorStage competitorStage, CompetitorStage[,] MyArray)
+        {
+            var col = competitorStage.Stage.StageOrder.Value - 1;
+            for (var row = 0; row < MyArray.GetUpperBound(0); row++){
+                if (competitorStage.Competitor_Id == MyArray[row, col].Competitor_Id.Value)
+                {
+                    //move this one
+                    var nextone = MyArray[row + 1, col];
+                    MyArray[row, col] = nextone;
+                    MyArray[row + 1, col] = competitorStage;                }
+            };
+      
+            return MyArray;
+        }
+
+        private void AddCompetitorStage(int currentMatchId, Competitor competitor)
         {
             foreach (var stage in db.Stages.Where(x => x.Match_Id == currentMatchId).ToList())
             {
@@ -82,8 +94,6 @@ namespace OutOfTheBoxMvc.Controllers
                 db.CompetitorStages.Add(competitorStage);
             }
         }
-
-
         private CompetitorStage[,] BuildTable(List<Competitor> competitorList, List<CompetitorStage> competitorStageList)
         {
             var rows = competitorList.Count();
@@ -122,6 +132,7 @@ namespace OutOfTheBoxMvc.Controllers
                             myArray[row, currentCol]  =
                                 competitorStageList.FirstOrDefault(
                                     x => x.Competitor_Id == comp.Id && x.Stage.StageOrder == currentCol + 1);
+
                             break; //next competitor please
                         }
                         //are other two spots filled?
@@ -146,9 +157,29 @@ namespace OutOfTheBoxMvc.Controllers
                     }
                 }
             }
-
-
             return myArray;
+        }
+
+        public bool IsValidRow(CompetitorStage[] rowToValidate, CompetitorStage[,] MyArray)
+        {
+            bool returnVal = false;
+
+            int countOne = 0;
+            int countTwo = 0;
+            int countThree = 0;
+
+            for(int row = 0; row < MyArray.GetUpperBound(0); row++)
+            {
+                if (MyArray[row, 0].Competitor_Id == rowToValidate[0].Competitor_Id)
+                    countOne++;
+                if (MyArray[row, 1].Competitor_Id == rowToValidate[1].Competitor_Id)
+                    countTwo++;
+                if (MyArray[row, 2].Competitor_Id == rowToValidate[2].Competitor_Id)
+                    countThree++;
+            }
+            if (countOne == 1 && countTwo == 1 && countThree == 1)
+                returnVal = true;
+            return returnVal;
         }
 
         public CompetitorStage[] FindMatchingCompetitorStageRecords(CompetitorStage[,] competitorStageArray, Competitor competitor)
@@ -166,11 +197,8 @@ namespace OutOfTheBoxMvc.Controllers
                 {
                     if (competitorStageArray[row, col].Competitor.Id == competitor.Id)
                         result.Add(competitorStageArray[row, col]);
-
-                    // you could do the search here...
                 }
             }
-
             return result.ToArray();
         }
 
