@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[Stages] (
     [Id]                     INT            IDENTITY (1, 1) NOT NULL,
-    [StageName]              NVARCHAR (MAX) NOT NULL,
+    [StageName]              NVARCHAR (MAX) NOT NULL,	
+    [StageOrder] INT NULL, 
     [IncludeInCombinedScore] BIT            NOT NULL,
     [IsVirginia]             BIT            NOT NULL,
     [NumberOfStrings]        INT            NOT NULL,

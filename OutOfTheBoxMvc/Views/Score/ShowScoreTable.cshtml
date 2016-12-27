@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "ShowScoreTable";
+}
+
+<h2>ShowScoreTable</h2>
+<table>
+    @for (int rowc = 0; rowc < 10; rowc++)
+    {
+        <tr><td>@ViewBag.NameGrid[rowc,0]</td><td>@ViewBag.NameGrid[rowc,1]</td><td>@ViewBag.NameGrid[rowc,2]</td></tr>
+
+    }
+</table>
+
+
+

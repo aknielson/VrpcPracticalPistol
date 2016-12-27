@@ -130,6 +130,22 @@ namespace OutOfTheBoxMvc.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Competitor competitor = await db.Competitors.FindAsync(id);
+
+            var competitorStageList = competitor.CompetitorStages.ToList();
+            
+            foreach (var competitorStage in competitorStageList)
+            {
+                var matchStageTimes = competitorStage.MatchStageTimes.ToList();
+                foreach (var matchStageTime in matchStageTimes)
+                {
+                    db.MatchStageTimes.Remove(matchStageTime);
+                }
+            }
+
+            foreach (var competitorStage in competitorStageList)
+            {               
+                db.CompetitorStages.Remove(competitorStage);
+            }
             var matchId = competitor.Match_Id;
             db.Competitors.Remove(competitor);
             await db.SaveChangesAsync();

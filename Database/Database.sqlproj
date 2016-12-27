@@ -86,4 +86,8 @@
     <None Include="Scripts\Post-Deployment\Data\Members.sql" />
     <None Include="Scripts\Post-Deployment\Data\Calibers.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Database.publish.xml" />
+    <None Include="LocalDbPublish.publish.publish.xml" />
+  </ItemGroup>
 </Project>

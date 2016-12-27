@@ -20,6 +20,7 @@ namespace DomainClasses
         public int? Stage_Id { get; set; }
 
         public int? Match_Id { get; set; }
+        public bool? IsScoringComplete { get; set; }
 
         public virtual Competitor Competitor { get; set; }
 

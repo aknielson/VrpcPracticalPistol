@@ -201,6 +201,8 @@
     <Content Include="Views\Shared\ChooseMatch.cshtml" />
     <Content Include="Views\Score\Index.cshtml" />
     <Content Include="Views\Score\Entry.cshtml" />
+    <Content Include="Views\Score\ShowScoreTable.cshtml" />
+    <Content Include="Views\Score\PopTableFirst.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

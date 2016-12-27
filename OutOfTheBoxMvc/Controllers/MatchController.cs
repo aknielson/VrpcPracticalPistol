@@ -43,7 +43,7 @@ namespace OutOfTheBoxMvc.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index","Home");
             }
-
+            matchViewModel.MembersSelectList = BuildMemberList();
             return View(matchViewModel);
 
         }
